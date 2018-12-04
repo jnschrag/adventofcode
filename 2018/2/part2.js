@@ -9,9 +9,8 @@ for (let line of input) {
   const comparisonLines = input.filter(d => d !== line)
 
   for (let entry of comparisonLines) {
-    let result = findFirstDiffPos(line, entry)
+    let result = findDifferences(line, entry)
     if (result.numDiff === 1) {
-      console.log(line, entry)
       let string = line.slice(0, result.posDiff) + line.slice(result.posDiff + 1)
       console.log(string)
       check = false
@@ -21,10 +20,8 @@ for (let line of input) {
   if (!check) break
 }
 
-function findFirstDiffPos(string1, string2) {
-  if (string1 === string2) {
-    return
-  }
+function findDifferences(string1, string2) {
+  if (string1 === string2) return
 
   const length = Math.max(string1.length, string2.length)
   let numDiff = 0
@@ -36,5 +33,5 @@ function findFirstDiffPos(string1, string2) {
       posDiff = i
     }
   }
-  return {string1: string1, string2: string2, numDiff: numDiff, posDiff: posDiff}
+  return {numDiff: numDiff, posDiff: posDiff}
 }
