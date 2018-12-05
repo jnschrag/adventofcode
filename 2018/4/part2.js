@@ -6,10 +6,6 @@ const dateLength = 16;
 
 let currentID;
 
-// Get array of guard IDs
-// { id: { logs: [], 00: 0, 01: 0, 02: 0} <-- Assign 00 - 59 & push all events to logs
-// Loop through events, increment asleep minutes by 1. Log current status to retroactively account for minutes asleep/awake.
-
 let guards = {};
 
 input.forEach(line => {
@@ -52,10 +48,12 @@ for (let id in guards) {
     }
     currentMinute = minutes
   })
+  guards[id].frequentMinute = Object.keys(guards[id].minutes).reduce((a, b) => guards[id].minutes[a] > guards[id].minutes[b] ? a : b)
+  guards[id].frequentAmount = guards[id].minutes[guards[id].frequentMinute]
 }
 
-let resultID = Object.keys(guards).reduce((a, b) => guards[a].total > guards[b].total ? a : b);
-let resultMinute = Object.keys(guards[resultID].minutes).reduce((a, b) => guards[resultID].minutes[a] > guards[resultID].minutes[b] ? a : b)
+let resultID = Object.keys(guards).reduce((a, b) => guards[a].frequentAmount > guards[b].frequentAmount ? a : b);
+let resultMinute = guards[resultID].frequentMinute
 console.log(resultID)
 console.log(resultMinute)
 console.log(resultID * resultMinute)
