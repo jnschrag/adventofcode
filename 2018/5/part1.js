@@ -3,29 +3,19 @@ const path = require("path");
 const text = fs.readFileSync(path.join(__dirname) + "/input.txt", "utf8");
 let input = text.split("");
 
-let deletions = 0
+const reactPolymer = polymer => {
+  let stack = []
 
-while (true) {
-  let newPolymer = []
-  let prevChar
+  for (let char of polymer) {
+    const current = stack[stack.length - 1]
 
-  for (let i = 0; i < input.length; i++) {
-    const char = input[i]
-    if (prevChar == char.toLowerCase() || prevChar == char.toUpperCase()) {
-      if (prevChar != char) {
-        newPolymer.splice(i, 1)
-        newPolymer.splice(i - 1, 1)
-        prevChar = ""
-        break;
-      }
+    if (current && current.toLowerCase() === char.toLowerCase() && current !== char) {
+      stack.pop()
+    } else {
+      stack.push(char)
     }
-    prevChar = char
   }
-
-  if (input == newPolymer) {
-    console.log(newPolymer)
-    break
-  }
-  
-  input = newPolymer
+  return stack.length
 }
+
+console.log(reactPolymer(input))
