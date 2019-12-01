@@ -8,6 +8,5 @@ let output = text
 console.log(output);
 
 function calcFuelPerModule(mass) {
-  mass = +mass;
-  return Math.floor(mass / 3) - 2;
+  return Math.floor(+mass / 3) - 2;
 }
